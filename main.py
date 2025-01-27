@@ -38,12 +38,13 @@ def create_user(user: User):
 
 @app.put("/users/{user_id}", response_model=User, status_code=200)
 def update_user(user_id:int, user: User):
-    for user in users_db:
-        if user.id == user_id:
-            user.name = user.name
-            user.age = user.age
-            user.email = user.email
-            return user
+    for db_user in users_db:
+        if db_user.id == user_id:
+            db_user.name = user.name
+            db_user.age = user.age
+            db_user.email = user.email
+            return db_user
+    raise HTTPException(status_code=404, detail="User not found")
     
 
 @app.delete("/users/{user_id}", response_model=str, status_code=200)
